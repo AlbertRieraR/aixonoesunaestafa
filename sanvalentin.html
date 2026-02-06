@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>San Valentín 💖</title>
+
+  <style>
+    body {
+      background: #f6c1d1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: "Comic Sans MS", "Arial Rounded MT Bold", sans-serif;
+    }
+
+    .card {
+      background: #fff;
+      width: 60%;
+      height: 50%;
+      padding: 35px 30px 40px;
+      border-radius: 22px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      position: relative;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 18px 45px rgba(0,0,0,0.25);
+      transform: translateY(-3px);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(#f2c1cf 1px, transparent 1px);
+      background-size: 14px 14px;
+      border-radius: 22px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .emoji {
+      font-size: 52px;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      height: 140px;
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .zone {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    button {
+      padding: 14px 26px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    }
+
+    #yes {
+      background: #ff5c8a;
+      color: white;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    #no {
+      background: #e0e0e0;
+      color: #555;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #gif {
+      display: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .yay {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    #gif img {
+      width: 260px;
+      border-radius: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <div class="emoji">🐱💘</div>
+
+    <h1>Anem a sopar per San Valentín?</h1>
+
+    <div class="buttons">
+      <div class="zone">
+        <button id="yes">Sí</button>
+      </div>
+
+      <div class="zone" id="noZone">
+        <button id="no">No</button>
+      </div>
+    </div>
+
+    <div id="gif">
+      <div class="yay">DALEEE! 🎉</div>
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHI1cHFwdmpvcG1lcW1xNThmdHUwbHZyMnI3bmphOHY1dGRkbmRnYiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26h0pHNtHKjmDo4WQ/giphy.gif">
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const noZone = document.getElementById("noZone");
+    const buttons = document.querySelector(".buttons");
+    const gif = document.getElementById("gif");
+
+    let yesScale = 1;
+    const maxScale = 1.7;
+    const escapeDistance = 100; // px
+
+    document.addEventListener("mousemove", (e) => {
+      const noRect = noBtn.getBoundingClientRect();
+
+      const noCenterX = noRect.left + noRect.width / 2;
+      const noCenterY = noRect.top + noRect.height / 2;
+
+      const dx = e.clientX - noCenterX;
+      const dy = e.clientY - noCenterY;
+
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance < escapeDistance) {
+        moveNoButton();
+        growYesButton();
+      }
+    });
+
+    function moveNoButton() {
+      const maxX = noZone.offsetWidth - noBtn.offsetWidth;
+      const maxY = noZone.offsetHeight - noBtn.offsetHeight;
+
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+
+      noBtn.style.left = randomX + "px";
+      noBtn.style.top = randomY + "px";
+      noBtn.style.transform = "translate(0, 0)";
+    }
+
+    function growYesButton() {
+      if (yesScale < maxScale) {
+        yesScale += 0.1;
+        yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
+      }
+    }
+
+    yesBtn.addEventListener("click", () => {
+      buttons.style.display = "none";
+      gif.style.display = "block";
+    });
+  </script>
+
+</body>
+</html>
